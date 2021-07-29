@@ -13,9 +13,6 @@
         <activity android:name=".doctorHome" />
         <activity android:name=".patientHome" />
         <activity android:name=".Register" />
-        <activity
-            android:name=".ui.login.patient_log_in"
-            android:label="@string/title_activity_patient_log_in" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
