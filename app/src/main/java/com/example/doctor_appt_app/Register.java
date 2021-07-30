@@ -43,10 +43,12 @@ public class Register extends AppCompatActivity {
             Intent I = new Intent(this, doctorHome.class);
             startActivity(I);
         }
-        mDatabase = database.getReference("patients");
-        User user = new User(name.getText().toString(), email.getText().toString(), username.getText().toString(), password.getText().toString(), gender);
-        mDatabase.child(user.getUsername()).setValue(user);
-        Intent I = new Intent(this, patientHome.class);
-        startActivity(I);
+        else {
+            mDatabase = database.getReference("patients");
+            User user = new User(name.getText().toString(), email.getText().toString(), username.getText().toString(), password.getText().toString(), gender);
+            mDatabase.child(user.getUsername()).setValue(user);
+            Intent I = new Intent(this, patientHome.class);
+            startActivity(I);
+        }
     }
 }
