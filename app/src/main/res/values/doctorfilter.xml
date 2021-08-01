@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name = "doctorfilter">
+        <item>General Practitioner</item>
+        <item>ENT Doctor</item>
+        <item>General Surgery</item>
+    </string-array>
+
+</resources>
