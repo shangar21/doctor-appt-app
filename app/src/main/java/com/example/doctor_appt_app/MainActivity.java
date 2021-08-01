@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 if(snapshot.child(user).exists()){
                     String password = snapshot.child(user).child("password").getValue().toString();
                     if (password.equals(pass)){
-                        Intent I = new Intent(getApplicationContext(), patientHome.class);
+                        Intent I = new Intent(MainActivity.this, patientHome.class);
+                        User u = snapshot.child(user).getValue(User.class);
+                        I.putExtra("user", u.getUsername());
                         startActivity(I);
                     }
                 }
@@ -74,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 if(snapshot.child(user).exists()){
                     String password = snapshot.child(user).child("password").getValue().toString();
                     if (password.equals(pass)){
-                        Intent I = new Intent(getApplicationContext(), patientHome.class);
+                        Intent I = new Intent(MainActivity.this, doctorHome.class);
+                        Doctor d = snapshot.child(user).getValue(Doctor.class);
+                        I.putExtra("user", d.getUsername());
                         startActivity(I);
                     }
                 }

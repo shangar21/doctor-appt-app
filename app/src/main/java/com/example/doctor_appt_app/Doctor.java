@@ -8,6 +8,8 @@ public class Doctor extends User{
         super(name, email, username, password, gender);
     }
 
+    public Doctor(){}
+
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }

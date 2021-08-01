@@ -9,11 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Doctorapptapp">
-        <activity android:name=".patient_book_appt"></activity>
+        <activity android:name=".patient_view_appts" />
+        <activity android:name=".patient_book_appt" />
         <activity android:name=".doctorHome" />
         <activity android:name=".patientHome" />
         <activity android:name=".Register" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
