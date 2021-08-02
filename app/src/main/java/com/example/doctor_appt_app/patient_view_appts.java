@@ -1,10 +1,20 @@
 package com.example.doctor_appt_app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -22,11 +32,35 @@ public class patient_view_appts extends AppCompatActivity {
 
         items = new ArrayList<String>();
 
-        items.add("Thursday, July 12th, 2022");
-        items.add("Friday, July 13th, 2022");
-        items.add("Saturday, July 14th, 2022");
+        Intent intent = getIntent();
+        String username = intent.getStringExtra("user");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
-        lv.setAdapter(adapter);
+        DatabaseReference pDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointments");
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.child(username).exists()){
+                    for (DataSnapshot ds : snapshot.child(username).getChildren()){
+                        String data = ds.child("day").getValue().toString() + ", " + ds.child("month").getValue().toString() + ", " + ds.child("year").getValue().toString()
+                                + ", with " + ds.child("dr_user_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":00, to " + ds.child("end_hour").getValue().toString() + ":00";
+                        items.add(data);
+                    }
+                }else{
+                    items.add("No appointments yet");
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
+                lv.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
+
+        pDatabaseReference.addValueEventListener(listener);
+
     }
 }
