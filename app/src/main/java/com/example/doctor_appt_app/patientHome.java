@@ -2,16 +2,15 @@ package com.example.doctor_appt_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.TextView;
 
-import java.util.ArrayList;
 
 public class patientHome extends AppCompatActivity {
 
-    ListView lv;
-    ArrayList<String> items;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +18,25 @@ public class patientHome extends AppCompatActivity {
         setContentView(R.layout.activity_patient_home);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
-        lv.setAdapter(adapter);
+        Intent intent = getIntent();
+        username = intent.getStringExtra("user");
+
+        TextView text = (TextView)findViewById(R.id.greeting);
+        String greeting = "Hello, "  + username;
+        text.setText(greeting);
+
+
+    }
+
+    public void checkAppointments(View view){
+        Intent I = new Intent(this, patient_view_appts.class);
+        I.putExtra("user", username);
+        startActivity(I);
+    }
+
+    public void bookAppointments(View view){
+        Intent I = new Intent(this, patient_book_appt.class);
+        I.putExtra("user", username);
+        startActivity(I);
     }
 }

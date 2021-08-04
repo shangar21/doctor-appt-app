@@ -6,34 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".patient_book_appt">
 
+
+    <EditText
+        android:id="@+id/search_by_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Search by Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/search_by_name_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Search"
+        android:onClick="search_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.824"
+        app:layout_constraintStart_toEndOf="@+id/search_by_name"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/search_by_specialization"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Button"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Search by Specialization"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/search_by_name" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="250"
-        android:layout_height="30"
-        android:layout_marginTop="24dp"
-        android:text="Doctor's Name Here"
+    <Button
+        android:id="@+id/search_by_specialization_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="search"
+        android:onClick="search_specialization"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.824"
+        app:layout_constraintStart_toEndOf="@+id/search_by_specialization"
+        app:layout_constraintTop_toBottomOf="@+id/search_by_name_button" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="397dp"
-        android:layout_height="266dp"
-        android:text="Doctor's Info Here"
+    <ListView
+        android:id="@+id/doctor_list"
+        android:layout_width="413dp"
+        android:layout_height="478dp"
+        android:layout_marginTop="72dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="88dp" />
+        app:layout_constraintTop_toBottomOf="@+id/search_by_specialization"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
