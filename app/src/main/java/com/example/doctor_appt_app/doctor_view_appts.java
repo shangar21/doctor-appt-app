@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -42,11 +44,13 @@ public class doctor_view_appts extends AppCompatActivity {
         Intent intent = getIntent();
         String username = intent.getStringExtra("user");
 
+
         DatabaseReference dDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsDoctor");
 
         dDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<String> patient_names = new ArrayList<>();
                 if(snapshot.child(username).exists()){
                     for(DataSnapshot ds : snapshot.child(username).getChildren()){
                         int apptYear = ds.child("year").getValue(Integer.class);
@@ -55,6 +59,7 @@ public class doctor_view_appts extends AppCompatActivity {
                             String data = ds.child("day").getValue().toString() + ", " + ds.child("month").getValue().toString() + ", " + ds.child("year").getValue().toString()
                                     + ", with " + ds.child("patient_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":00, to " + ds.child("end_hour").getValue().toString() + ":00";
                             items.add(data);
+                            patient_names.add(ds.child("patient_user_name").getValue().toString());
                         }
                     }
                 }else{
@@ -63,6 +68,15 @@ public class doctor_view_appts extends AppCompatActivity {
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
                 lv.setAdapter(adapter);
+
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Intent vi = new Intent(getApplicationContext(), doctor_view_patient_info.class);
+                            vi.putExtra("patient_username", patient_names.get(i));
+                            startActivity(vi);
+                    }
+                });
             }
 
             @Override
