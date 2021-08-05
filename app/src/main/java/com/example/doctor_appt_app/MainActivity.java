@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+
+
     public void login(View view){
         EditText username = (EditText)findViewById(R.id.username);
         EditText password = (EditText)findViewById(R.id.password);
@@ -37,19 +39,22 @@ public class MainActivity extends AppCompatActivity {
 
         ValueEventListener patientListener = new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+            public void onDataChange(@NonNull @NotNull  DataSnapshot snapshot) {
 
-                if(snapshot.child(user).exists()){
-                    String password = snapshot.child(user).child("password").getValue().toString();
-                    if (password.equals(pass)){
-                        Intent I = new Intent(MainActivity.this, patientHome.class);
-                        User u = snapshot.child(user).getValue(User.class);
-                        I.putExtra("user", u.getUsername());
-                        I.putExtra("name", u.getName());
-                        startActivity(I);
+                    Object password = snapshot.child(user).child("password").getValue();
+                    if (password != null) {
+                        password = password.toString();
+                        if (password.equals(pass)){
+                            Intent I = new Intent(MainActivity.this, patientHome.class);
+                            User u = snapshot.child(user).getValue(User.class);
+                            I.putExtra("user", u.getUsername());
+                            I.putExtra("name", u.getName());
+                            startActivity(I);
+                        }
                     }
+
                 }
-            }
+
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
@@ -75,15 +80,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if(snapshot.child(user).exists()){
-                    String password = snapshot.child(user).child("password").getValue().toString();
-                    if (password.equals(pass)){
-                        Intent I = new Intent(MainActivity.this, doctorHome.class);
-                        Doctor d = snapshot.child(user).getValue(Doctor.class);
-                        I.putExtra("user", d.getUsername());
-                        startActivity(I);
+                    Object password = snapshot.child(user).child("password").getValue();
+                    if (password != null)
+                    {
+                        password = password.toString();
+                        if (password.equals(pass)){
+                            Intent I = new Intent(MainActivity.this, doctorHome.class);
+                            Doctor d = snapshot.child(user).getValue(Doctor.class);
+                            I.putExtra("user", d.getUsername());
+                            startActivity(I);
+                        }
                     }
+
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
