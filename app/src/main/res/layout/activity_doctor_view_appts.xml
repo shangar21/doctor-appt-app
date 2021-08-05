@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".doctor_view_appts">
 
+
+    <ListView
+        android:id="@+id/listview2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="67dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

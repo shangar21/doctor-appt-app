@@ -8,7 +8,6 @@ import android.view.View;
 
 public class doctorHome extends AppCompatActivity {
 
-    Intent intent;
     String username;
 
     @Override
@@ -16,7 +15,7 @@ public class doctorHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_home);
 
-        intent = getIntent();
+        Intent intent = getIntent();
         username = intent.getStringExtra("user");
     }
 

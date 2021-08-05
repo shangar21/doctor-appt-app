@@ -23,6 +23,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class view_doctor_availability extends AppCompatActivity {
     String [] MONTHS = {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
@@ -30,8 +32,10 @@ public class view_doctor_availability extends AppCompatActivity {
     ArrayList<Integer> year;
     ArrayList<Integer> start_hours;
     ArrayList<Integer> end_hours;
+    String dr_username;
     String username;
     String dr_name;
+    String name;
 
     String m;
     int d;
@@ -46,8 +50,11 @@ public class view_doctor_availability extends AppCompatActivity {
         setContentView(R.layout.activity_view_doctor_availability);
 
         Intent intent = getIntent();
+        dr_username = intent.getStringExtra("doctor_username");
         username = intent.getStringExtra("user");
         dr_name = intent.getStringExtra("doctor_name");
+        name = intent.getStringExtra("name");
+
 
         TextView text = (TextView)findViewById(R.id.textView);
         String greeting = "Booking appointment for Dr."  + dr_name;
@@ -159,12 +166,32 @@ public class view_doctor_availability extends AppCompatActivity {
 
     public void submit(View view){
         Appointment a = new Appointment(sh, eh, d, m, y);
-        a.setDr_user_name(dr_name);
+        a.setDr_user_name(dr_username);
         a.setPatient_user_name(username);
+        a.setDr_name(dr_name);
+        a.setPatient_name(name);
 
-        DatabaseReference pDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointments");
+        int mon = 0;
+        if(m.equals("jan")) mon = 0;
+        if(m.equals("feb")) mon = 1;
+        if(m.equals("mar")) mon = 2;
+        if(m.equals("apr")) mon = 3;
+        if(m.equals("may")) mon = 4;
+        if(m.equals("jun")) mon = 5;
+        if(m.equals("jul")) mon = 6;
+        if(m.equals("aug")) mon = 7;
+        if(m.equals("sep")) mon = 8;
+        if(m.equals("oct")) mon = 9;
+        if(m.equals("nov")) mon = 10;
+        if(m.equals("dec")) mon = 11;
+        Calendar clnd1 = new GregorianCalendar(y, mon, d);
+        int woy = clnd1.get(Calendar.WEEK_OF_YEAR);
+        a.setWeekOfYear(woy);
 
-        ValueEventListener listener = new ValueEventListener() {
+        DatabaseReference pDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsPatient");
+        DatabaseReference dDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsDoctor");
+
+        pDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.child(a.getPatient_user_name()).exists()){
@@ -176,6 +203,7 @@ public class view_doctor_availability extends AppCompatActivity {
 
                 Intent i = new Intent(getApplicationContext(), patientHome.class);
                 i.putExtra("user", username);
+                i.putExtra("name", name);
                 startActivity(i);
             }
 
@@ -183,9 +211,31 @@ public class view_doctor_availability extends AppCompatActivity {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
-        };
+        });
 
-        pDatabaseReference.addListenerForSingleValueEvent(listener);
+        dDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.child(a.getDr_user_name()).exists()){
+                    dDatabaseReference.child(a.getDr_user_name()).child(String.valueOf((int)(snapshot.child(a.getDr_user_name()).getChildrenCount() + (long)1))).setValue(a);
+                }
+                else {
+                    dDatabaseReference.child(a.getDr_user_name()).child("1").setValue(a);
+                }
+
+                Intent i = new Intent(getApplicationContext(), patientHome.class);
+                i.putExtra("user", username);
+                i.putExtra("name", name);
+                startActivity(i);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+
 
     }
 }

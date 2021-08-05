@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GithubLibrary/doctor-appt-app/app/src/main/res/layout/activity_doctor_view_appts.xml" value="0.28348097967691505" />
         <entry key="..\:/GithubLibrary/doctor-appt-app/app/src/main/res/layout/activity_patient_book_appt.xml" value="0.5541666666666667" />
         <entry key="..\:/GithubLibrary/doctor-appt-app/app/src/main/res/layout/activity_patient_home.xml" value="0.5788900979325353" />
         <entry key="..\:/GithubLibrary/doctor-appt-app/app/src/main/res/layout/activity_patient_select_doctor.xml" value="0.755586592178771" />
+        <entry key="..\:/GithubLibrary/doctor-appt-app/app/src/main/res/layout/activity_patient_view_appts.xml" value="0.21510416666666668" />
         <entry key="..\:/GithubLibrary/doctor-appt-app/app/src/main/res/layout/activity_patient_view_existing_appt.xml" value="0.6" />
       </map>
     </option>

@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent I = new Intent(MainActivity.this, patientHome.class);
                         User u = snapshot.child(user).getValue(User.class);
                         I.putExtra("user", u.getUsername());
+                        I.putExtra("name", u.getName());
                         startActivity(I);
                     }
                 }

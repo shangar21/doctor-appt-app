@@ -1,5 +1,8 @@
 package com.example.doctor_appt_app;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 public class Appointment {
     int start_hour;
     int start_minute;
@@ -12,27 +15,11 @@ public class Appointment {
 
     String dr_user_name;
     String patient_user_name;
+    String dr_name;
+    String patient_name;
+    int weekOfYear;
 
     public Appointment(){}
-
-    public Appointment(int start_hour, int start_minute, int end_hour, int end_minute, String week) {
-        this.start_hour = start_hour;
-        this.start_minute = start_minute;
-        this.end_hour = end_hour;
-        this.end_minute = end_minute;
-        this.week = week;
-    }
-
-    public Appointment(int start_hour, int start_minute, int end_hour, int end_minute, int day, String week, String month, int year) {
-        this.start_hour = start_hour;
-        this.start_minute = start_minute;
-        this.end_hour = end_hour;
-        this.end_minute = end_minute;
-        this.day = day;
-        this.week = week;
-        this.month = month;
-        this.year = year;
-    }
 
     public Appointment(int start_hour, int end_hour, int day, String month, int year) {
         this.start_hour = start_hour;
@@ -121,4 +108,16 @@ public class Appointment {
     public void setPatient_user_name(String patient_user_name) {
         this.patient_user_name = patient_user_name;
     }
+
+    public String getDr_name() {return dr_name;}
+
+    public void setDr_name(String a) {this.dr_name = a;}
+
+    public String getPatient_name() {return patient_name;}
+
+    public void setPatient_name(String a) {this.patient_name = a;}
+
+    public int getWeekOfYear() {return weekOfYear;}
+
+    public void setWeekOfYear(int a) {this.weekOfYear = a;}
 }

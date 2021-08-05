@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Doctorapptapp">
-        <activity android:name=".doctor_view_appts"></activity>
+        <activity android:name=".doctor_view_appts" />
         <activity android:name=".view_doctor_availability" />
         <activity android:name=".patient_view_appts" />
         <activity android:name=".patient_book_appt" />

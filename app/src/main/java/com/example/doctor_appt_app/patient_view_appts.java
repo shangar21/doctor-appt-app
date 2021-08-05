@@ -35,7 +35,7 @@ public class patient_view_appts extends AppCompatActivity {
         Intent intent = getIntent();
         String username = intent.getStringExtra("user");
 
-        DatabaseReference pDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointments");
+        DatabaseReference pDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsPatient");
 
         ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -43,7 +43,7 @@ public class patient_view_appts extends AppCompatActivity {
                 if(snapshot.child(username).exists()){
                     for (DataSnapshot ds : snapshot.child(username).getChildren()){
                         String data = ds.child("day").getValue().toString() + ", " + ds.child("month").getValue().toString() + ", " + ds.child("year").getValue().toString()
-                                + ", with " + ds.child("dr_user_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":00, to " + ds.child("end_hour").getValue().toString() + ":00";
+                                + ", with " + ds.child("dr_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":00, to " + ds.child("end_hour").getValue().toString() + ":00";
                         items.add(data);
                     }
                 }else{
