@@ -58,7 +58,18 @@ public class MainActivity extends AppCompatActivity {
                     showAlertDialog(v);
                 }
                 else{
+//                    ////////buggy!!!!!!!!!!!!!!!!
+//                    int answer = checkpw(v);
+//                    System.out.println(answer);
+//                    if (answer == -99)
+//                    {
+//                        showAlertDialog1(v);
+//                    }
+//                    /////////////
                     drLogin(v);
+
+
+
                 }
             }
         });
@@ -81,11 +92,10 @@ public class MainActivity extends AppCompatActivity {
     {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Error");
-        alert.setMessage("Username or password cannot be blank!");
+        alert.setMessage("Invalid password or username");
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
             }
         });
         alert.create().show();
@@ -113,17 +123,48 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(I);
                         }
                     }
-
                 }
-
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
                 System.out.println(error);
             }
         };
-
         patients.addValueEventListener(patientListener);
+    }
 
+    public int checkpw(View view)
+    {
+        EditText username = (EditText)findViewById(R.id.username);
+        EditText password = (EditText)findViewById(R.id.password);
+        String user = username.getText().toString();
+        String pass = password.getText().toString();
+        final int[] ans = {-99};
+        DatabaseReference patients = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
+        ValueEventListener drListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull  DataSnapshot snapshot) {
+
+                Object password = snapshot.child(user).child("password").getValue();
+                if (password != null) {
+                    password = password.toString();
+                    if (password.equals(pass)){
+                        ans[0] = 1;
+                    }
+
+                    else
+                    {
+                        ans[0] = -1;
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+            }
+        };
+        return ans[0];
     }
 
     public void drLogin(View view){
