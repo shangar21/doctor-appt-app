@@ -6,6 +6,17 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/button7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="456dp"
+        android:onClick="pchange_profile"
+        android:text="Edit Profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
 
 
         android:id="@+id/view_appts"
@@ -22,7 +33,7 @@
         android:id="@+id/book_appt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="88dp"
         android:onClick="bookAppointments"
         android:text="book new appointment"
         app:layout_constraintEnd_toEndOf="parent"
