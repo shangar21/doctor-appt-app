@@ -1,8 +1,10 @@
 package com.example.doctor_appt_app;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,51 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //error checking for patient login
+        Button button = (Button) findViewById(R.id.button2);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EditText username = (EditText)findViewById(R.id.username);
+                EditText password = (EditText)findViewById(R.id.password);
+                String user = username.getText().toString();
+                String pass = password.getText().toString();
+                if (user.equals("") || pass.equals(""))
+                {
+
+                    showAlertDialog(v);
+                }
+            }
+        });
+
+        //error checking for doctor login
+        Button button_doc = (Button) findViewById(R.id.doctor_sign_in);
+        button_doc.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EditText username = (EditText)findViewById(R.id.username);
+                EditText password = (EditText)findViewById(R.id.password);
+                String user = username.getText().toString();
+                String pass = password.getText().toString();
+                if (user.equals("") || pass.equals(""))
+                {
+                    showAlertDialog(v);
+                }
+            }
+        });
+    }
+
+    public void showAlertDialog(View v)
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Error");
+        alert.setMessage("Username or password cannot be blank!");
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        alert.create().show();
     }
 
 
@@ -34,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         String user = username.getText().toString();
         String pass = password.getText().toString();
+
 
         DatabaseReference patients = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
 
@@ -109,6 +157,11 @@ public class MainActivity extends AppCompatActivity {
         Intent I = new Intent(this, Register.class);
         startActivity(I);
     }
+
+
+
+
+
 
 
 }
