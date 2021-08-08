@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 public class doctor_view_patient_info extends AppCompatActivity {
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,7 @@ public class doctor_view_patient_info extends AppCompatActivity {
 
         Intent intent = getIntent();
         String user = intent.getStringExtra("patient_username");
+        id = Integer.parseInt(intent.getStringExtra("appointment_id"));
 
         DatabaseReference patients = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
 
@@ -54,5 +57,45 @@ public class doctor_view_patient_info extends AppCompatActivity {
         };
 
         patients.addValueEventListener(patientListener);
+    }
+
+    public void delete(View view){
+        DatabaseReference patient_appts = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsPatient");
+        DatabaseReference doctor_appts = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsDoctor");
+
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()){
+                    if(ds.child("uniqueID").getValue().toString().equals(String.valueOf(id))){
+                        //delete
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
+
+        ValueEventListener listener2 = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()){
+                    if(ds.child("uniqueID").getValue().toString().equals(String.valueOf(id))){
+                        //delete
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        };
+
+        patient_appts.addValueEventListener(listener);
+        doctor_appts.addValueEventListener(listener2);
     }
 }
