@@ -1,5 +1,9 @@
 package com.example.doctor_appt_app;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class Availability {
     int start_hour;
     int start_minute;
@@ -45,5 +49,34 @@ public class Availability {
 
     public void setEnd_minute(int end_minute) {
         this.end_minute = end_minute;
+    }
+
+    public boolean isUnavailable(){
+        return this.start_hour == this.end_hour && this.start_minute == this.end_minute;
+    }
+
+    public boolean isInRange(Appointment a){
+        int sh = a.getStart_hour();
+        int sm  = a.getStart_minute();
+
+        int eh = a.getEnd_hour();
+        int em = a.getEnd_minute();
+
+        if(sh == this.start_hour){
+            return this.start_minute <= sm;
+        }
+
+        if(eh == this.end_hour){
+            return em <= this.end_minute;
+        }
+
+        return sh >= this.start_hour && eh <= this.end_hour ;
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return "Availability From: " + String.valueOf(this.start_hour) + ":" + String.valueOf(this.start_minute)  + " To: " + String.valueOf(this.end_hour) + String.valueOf(this.end_minute);
     }
 }
