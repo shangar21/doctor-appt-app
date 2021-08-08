@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 public class doctorHome extends AppCompatActivity {
 
@@ -17,6 +18,9 @@ public class doctorHome extends AppCompatActivity {
 
         Intent intent = getIntent();
         username = intent.getStringExtra("user");
+
+        TextView tv2 = (TextView)findViewById(R.id.textView2);
+        tv2.setText("Hello, " + username);
     }
 
     public void view_appts(View view){

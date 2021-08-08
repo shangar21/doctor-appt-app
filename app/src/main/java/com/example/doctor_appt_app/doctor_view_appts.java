@@ -1,15 +1,18 @@
 package com.example.doctor_appt_app;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,53 +40,44 @@ public class doctor_view_appts extends AppCompatActivity {
 
         items = new ArrayList<String>();
 
-        Calendar currentTime = new GregorianCalendar();
-        int currentYear = currentTime.get(Calendar.YEAR);
-        int currentWeek = currentTime.get(Calendar.WEEK_OF_YEAR);
-
         Intent intent = getIntent();
         String username = intent.getStringExtra("user");
 
+        DatabaseReference pDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsDoctor");
 
-        DatabaseReference dDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsDoctor");
-
-        dDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        ValueEventListener listener = new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                ArrayList<String> patient_names = new ArrayList<>();
+                Calendar calendar = new GregorianCalendar();
+                int week_of_year = calendar.get(Calendar.WEEK_OF_YEAR) - 2;
+
                 if(snapshot.child(username).exists()){
-                    for(DataSnapshot ds : snapshot.child(username).getChildren()){
-                        int apptYear = ds.child("year").getValue(Integer.class);
-                        int apptWeek = ds.child("weekOfYear").getValue(Integer.class);
-                        if(currentYear == apptYear && currentWeek == apptWeek){
+                    for (DataSnapshot ds : snapshot.child(username).getChildren()){
+                        if(String.valueOf(week_of_year).equals(ds.child("weekOfYear").getValue().toString())){
                             String data = ds.child("day").getValue().toString() + ", " + ds.child("month").getValue().toString() + ", " + ds.child("year").getValue().toString()
-                                    + ", with " + ds.child("patient_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":00, to " + ds.child("end_hour").getValue().toString() + ":00";
+                                    + ", with " + ds.child("patient_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":" + ds.child("start_minute").getValue().toString() +
+                                    ", to " + ds.child("end_hour").getValue().toString() + ":" + ds.child("end_minute").getValue().toString();
                             items.add(data);
-                            patient_names.add(ds.child("patient_user_name").getValue().toString());
+                        }else{
+                            items.add("No appointments this week. " + String.valueOf(week_of_year) + ", " + ds.child("weekOfYear").getValue().toString());
                         }
                     }
                 }else{
-                    items.add("No appointments yet");
+                    items.add("No appointments have been booked yet");
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
                 lv.setAdapter(adapter);
-
-                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Intent vi = new Intent(getApplicationContext(), doctor_view_patient_info.class);
-                            vi.putExtra("patient_username", patient_names.get(i));
-                            startActivity(vi);
-                    }
-                });
             }
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
-        });
+        };
+
+        pDatabaseReference.addValueEventListener(listener);
     }
 
 
