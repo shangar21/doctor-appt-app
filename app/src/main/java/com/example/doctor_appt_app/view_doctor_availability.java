@@ -32,6 +32,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.lang.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class view_doctor_availability extends AppCompatActivity {
     String [] MONTHS = {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
@@ -165,6 +168,10 @@ public class view_doctor_availability extends AppCompatActivity {
 
         int dow = date.getDay();
 
+        long uniqueIdentifier = System.currentTimeMillis() + username.hashCode();
+
+        a.setUniqueID(uniqueIdentifier);
+
 
         a.setWeekOfYear(woy);
         a.setWeek(dow);
@@ -205,9 +212,15 @@ public class view_doctor_availability extends AppCompatActivity {
                                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                                     if (snapshot.child(a.getPatient_user_name()).exists()){
                                         pDatabaseReference.child(a.getPatient_user_name()).child(String.valueOf((int)(snapshot.child(a.getPatient_user_name()).getChildrenCount() + (long)1))).setValue(a);
+                                        Map<String, Object> identifierUpdate = new HashMap<>();
+                                        identifierUpdate.put("uniqueID", uniqueIdentifier);
+                                        pDatabaseReference.child(a.getPatient_user_name()).child(String.valueOf((int)(snapshot.child(a.getPatient_user_name()).getChildrenCount() + (long)1))).updateChildren(identifierUpdate);
                                     }
                                     else {
                                         pDatabaseReference.child(a.getPatient_user_name()).child("1").setValue(a);
+                                        Map<String, Object> identifierUpdate = new HashMap<>();
+                                        identifierUpdate.put("uniqueID", uniqueIdentifier);
+                                        pDatabaseReference.child(a.getPatient_user_name()).child("1").updateChildren(identifierUpdate);
                                     }
 
                                     Intent i = new Intent(getApplicationContext(), patientHome.class);
@@ -227,9 +240,16 @@ public class view_doctor_availability extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.child(a.getDr_user_name()).exists()){
                                         dDatabaseReference.child(a.getDr_user_name()).child(String.valueOf((int)(snapshot.child(a.getDr_user_name()).getChildrenCount() + (long)1))).setValue(a);
+                                        Map<String, Object> identifierUpdate = new HashMap<>();
+                                        identifierUpdate.put("uniqueID", uniqueIdentifier);
+                                        dDatabaseReference.child(a.getDr_user_name()).child(String.valueOf((int)(snapshot.child(a.getDr_user_name()).getChildrenCount() + (long)1))).updateChildren(identifierUpdate);
+
                                     }
                                     else {
                                         dDatabaseReference.child(a.getDr_user_name()).child("1").setValue(a);
+                                        Map<String, Object> identifierUpdate = new HashMap<>();
+                                        identifierUpdate.put("uniqueID", uniqueIdentifier);
+                                        dDatabaseReference.child(a.getDr_user_name()).child("1").updateChildren(identifierUpdate);
                                     }
 
                                     Intent i = new Intent(getApplicationContext(), patientHome.class);
@@ -254,9 +274,15 @@ public class view_doctor_availability extends AppCompatActivity {
                         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                             if (snapshot.child(a.getPatient_user_name()).exists()){
                                 pDatabaseReference.child(a.getPatient_user_name()).child(String.valueOf((int)(snapshot.child(a.getPatient_user_name()).getChildrenCount() + (long)1))).setValue(a);
+                                Map<String, Object> identifierUpdate = new HashMap<>();
+                                identifierUpdate.put("uniqueID", uniqueIdentifier);
+                                pDatabaseReference.child(a.getPatient_user_name()).child(String.valueOf((int)(snapshot.child(a.getPatient_user_name()).getChildrenCount() + (long)1))).updateChildren(identifierUpdate);
                             }
                             else {
                                 pDatabaseReference.child(a.getPatient_user_name()).child("1").setValue(a);
+                                Map<String, Object> identifierUpdate = new HashMap<>();
+                                identifierUpdate.put("uniqueID", uniqueIdentifier);
+                                pDatabaseReference.child(a.getPatient_user_name()).child("1").updateChildren(identifierUpdate);
                             }
 
                             Intent i = new Intent(getApplicationContext(), patientHome.class);
@@ -276,9 +302,16 @@ public class view_doctor_availability extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.child(a.getDr_user_name()).exists()){
                                 dDatabaseReference.child(a.getDr_user_name()).child(String.valueOf((int)(snapshot.child(a.getDr_user_name()).getChildrenCount() + (long)1))).setValue(a);
+                                Map<String, Object> identifierUpdate = new HashMap<>();
+                                identifierUpdate.put("uniqueID", uniqueIdentifier);
+                                dDatabaseReference.child(a.getDr_user_name()).child(String.valueOf((int)(snapshot.child(a.getDr_user_name()).getChildrenCount() + (long)1))).updateChildren(identifierUpdate);
+
                             }
                             else {
                                 dDatabaseReference.child(a.getDr_user_name()).child("1").setValue(a);
+                                Map<String, Object> identifierUpdate = new HashMap<>();
+                                identifierUpdate.put("uniqueID", uniqueIdentifier);
+                                dDatabaseReference.child(a.getDr_user_name()).child("1").updateChildren(identifierUpdate);
                             }
 
                             Intent i = new Intent(getApplicationContext(), patientHome.class);

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,13 +18,19 @@ import org.jetbrains.annotations.NotNull;
 
 public class doctor_view_patient_info extends AppCompatActivity {
 
+    String patient;
+    String doctor;
+    Long uniqueIdentifier;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_view_patient_info);
 
         Intent intent = getIntent();
-        String user = intent.getStringExtra("patient_username");
+        patient = intent.getStringExtra("patient_username");
+        doctor = intent.getStringExtra("doctor_username");
+        uniqueIdentifier = intent.getLongExtra("uniqueIdentifier", 0);
 
         DatabaseReference patients = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
 
@@ -31,13 +38,13 @@ public class doctor_view_patient_info extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 User u;
-                if(snapshot.child(user).exists()){
-                    u = snapshot.child(user).getValue(User.class);
-                    TextView patient_name = (TextView)findViewById(R.id.doctor_view_patient_name);
-                    TextView patient_gender = (TextView)findViewById(R.id.doctor_view_patient_gender);
-                    TextView patient_username = (TextView)findViewById(R.id.doctor_view_patient_username);
-                    TextView patient_email = (TextView)findViewById(R.id.doctor_view_patient_email);
-                    TextView patient_birthday = (TextView)findViewById(R.id.doctor_view_patient_birthday);
+                if (snapshot.child(patient).exists()) {
+                    u = snapshot.child(patient).getValue(User.class);
+                    TextView patient_name = (TextView) findViewById(R.id.doctor_view_patient_name);
+                    TextView patient_gender = (TextView) findViewById(R.id.doctor_view_patient_gender);
+                    TextView patient_username = (TextView) findViewById(R.id.doctor_view_patient_username);
+                    TextView patient_email = (TextView) findViewById(R.id.doctor_view_patient_email);
+                    TextView patient_birthday = (TextView) findViewById(R.id.doctor_view_patient_birthday);
 
                     patient_name.setText("Name: " + u.getName());
                     patient_gender.setText("Gender: " + u.getGender());
@@ -55,4 +62,41 @@ public class doctor_view_patient_info extends AppCompatActivity {
 
         patients.addValueEventListener(patientListener);
     }
+
+    public void doctorCancelAppointment(View view) {
+        DatabaseReference pDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsPatient");
+        DatabaseReference dDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsDoctor");
+        pDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.child(doctor).getChildren()) {
+                    if(uniqueIdentifier == ds.child("uniqueID").getValue()) {
+                        ds.getRef().removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        dDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.child(patient).getChildren()) {
+                    if(uniqueIdentifier == ds.child("uniqueID").getValue()) {
+                        ds.getRef().removeValue();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
 }
