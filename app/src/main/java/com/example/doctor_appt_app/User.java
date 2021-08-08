@@ -6,8 +6,10 @@ public class User {
     String email;
     String username;
     String password;
-
     String gender;
+    int birth_month;
+    int birth_day;
+    int birth_year;
 
     public User(String name, String email, String username, String password, String gender) {
         this.name = name;
@@ -59,6 +61,27 @@ public class User {
         this.gender = gender;
     }
 
+    public int getBirth_month() {
+        return birth_month;
+    }
 
+    public void setBirth_month(int birth_month) {
+        this.birth_month = birth_month;
+    }
 
+    public int getBirth_day() {
+        return birth_day;
+    }
+
+    public void setBirth_day(int birth_day) {
+        this.birth_day = birth_day;
+    }
+
+    public int getBirth_year() {
+        return birth_year;
+    }
+
+    public void setBirth_year(int birth_year) {
+        this.birth_year = birth_year;
+    }
 }

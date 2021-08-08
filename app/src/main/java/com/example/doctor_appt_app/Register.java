@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Switch;
@@ -62,6 +63,7 @@ public class Register extends AppCompatActivity {
         EditText email = (EditText) findViewById(R.id.register_email);
         EditText username = (EditText) findViewById(R.id.register_username);
         EditText password = (EditText) findViewById(R.id.register_password);
+        DatePicker picker = (DatePicker)findViewById(R.id.datePickerBirthday);
         Switch isDoctor = (Switch) findViewById(R.id.register_doctor);
       //  RadioButton male = (RadioButton) findViewById(R.id.register_male);
       //  RadioButton female = (RadioButton) findViewById(R.id.register_female);
@@ -80,8 +82,12 @@ public class Register extends AppCompatActivity {
                         if (!snapshot.child(usern).exists()) {
                             mDatabase = database.getReference("patients");
                             User user = new User(name.getText().toString(), email.getText().toString(), username.getText().toString(), password.getText().toString(), gender);
+                            user.setBirth_day(picker.getDayOfMonth());
+                            user.setBirth_month(picker.getMonth());
+                            user.setBirth_year(picker.getYear());
                             mDatabase.child(user.getUsername()).setValue(user);
                             Intent I = new Intent(Register.this, patientHome.class);
+                            I.putExtra("user", user.getUsername());
                             startActivity(I);
 
                         }
@@ -107,8 +113,12 @@ public class Register extends AppCompatActivity {
                         if (!snapshot.child(usern).exists()) {
                             mDatabase = database.getReference("doctors");
                             Doctor doctor = new Doctor(name.getText().toString(), email.getText().toString(), username.getText().toString(), password.getText().toString(), gender);
+                            doctor.setBirth_day(picker.getDayOfMonth());
+                            doctor.setBirth_month(picker.getMonth());
+                            doctor.setBirth_year(picker.getYear());
                             mDatabase.child(doctor.getUsername()).setValue(doctor);
                             Intent I = new Intent(Register.this, doctorHome.class);
+                            I.putExtra("user", doctor.getUsername());
                             startActivity(I);
                         }
                     }
@@ -122,26 +132,5 @@ public class Register extends AppCompatActivity {
             };
             doctors.addValueEventListener(doctorsListener);
         }
-     /*   //DatabaseReference paDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
-        //DataSnapshot snapshot;// = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
-        if(password.getText().length()!=0 ) {
-           // if (!database.getReference("patients/username").get().isSuccessful()) {
-
-                if (isDoctor.isChecked()) {
-                    mDatabase = database.getReference("doctors");
-                    Doctor doctor = new Doctor(name.getText().toString(), email.getText().toString(), username.getText().toString(), password.getText().toString(), gender);
-                    mDatabase.child(doctor.getUsername()).setValue(doctor);
-                    Intent I = new Intent(this, doctorHome.class);
-                    startActivity(I);
-
-                } else {
-                    mDatabase = database.getReference("patients");
-                    User user = new User(name.getText().toString(), email.getText().toString(), username.getText().toString(), password.getText().toString(), gender);
-                    mDatabase.child(user.getUsername()).setValue(user);
-                    Intent I = new Intent(this, patientHome.class);
-                    startActivity(I);
-                }
-          //  }
-        }*/
     }
 }

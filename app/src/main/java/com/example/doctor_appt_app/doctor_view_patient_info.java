@@ -37,11 +37,13 @@ public class doctor_view_patient_info extends AppCompatActivity {
                     TextView patient_gender = (TextView)findViewById(R.id.doctor_view_patient_gender);
                     TextView patient_username = (TextView)findViewById(R.id.doctor_view_patient_username);
                     TextView patient_email = (TextView)findViewById(R.id.doctor_view_patient_email);
+                    TextView patient_birthday = (TextView)findViewById(R.id.doctor_view_patient_birthday);
 
                     patient_name.setText("Name: " + u.getName());
                     patient_gender.setText("Gender: " + u.getGender());
                     patient_username.setText("Username: " + u.getUsername());
                     patient_email.setText("Email: " + u.getEmail());
+                    patient_birthday.setText("Birthday: " + String.valueOf(u.birth_day) + "/" + String.valueOf(u.birth_month + 1) + "/" + String.valueOf(u.birth_year));
                 }
             }
 
