@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //error checking for patient login
         Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
@@ -37,8 +36,11 @@ public class MainActivity extends AppCompatActivity {
                 String pass = password.getText().toString();
                 if (user.equals("") || pass.equals(""))
                 {
-
                     showAlertDialog(v);
+                }
+                else
+                {
+                    login(v);
                 }
             }
         });
@@ -55,11 +57,27 @@ public class MainActivity extends AppCompatActivity {
                 {
                     showAlertDialog(v);
                 }
+                else{
+                    drLogin(v);
+                }
             }
         });
     }
 
     public void showAlertDialog(View v)
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Error");
+        alert.setMessage("Username or password cannot be blank!");
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        alert.create().show();
+    }
+
+    public void showAlertDialog1(View v)
     {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("Error");
@@ -78,17 +96,12 @@ public class MainActivity extends AppCompatActivity {
     public void login(View view){
         EditText username = (EditText)findViewById(R.id.username);
         EditText password = (EditText)findViewById(R.id.password);
-
         String user = username.getText().toString();
         String pass = password.getText().toString();
-
-
         DatabaseReference patients = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
-
         ValueEventListener patientListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull  DataSnapshot snapshot) {
-
                     Object password = snapshot.child(user).child("password").getValue();
                     if (password != null) {
                         password = password.toString();
@@ -102,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
-
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
@@ -138,11 +150,11 @@ public class MainActivity extends AppCompatActivity {
                             I.putExtra("user", d.getUsername());
                             startActivity(I);
                         }
+
                     }
 
                 }
             }
-
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
