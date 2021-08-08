@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 public class Appointment {
     int start_hour;
@@ -150,4 +151,19 @@ public class Appointment {
 
         return false;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Appointment that = (Appointment) o;
+        return start_hour == that.start_hour &&
+                start_minute == that.start_minute &&
+                end_hour == that.end_hour &&
+                end_minute == that.end_minute &&
+                day == that.day &&
+                year == that.year &&
+                month.equals(that.month);
+    }
+
 }

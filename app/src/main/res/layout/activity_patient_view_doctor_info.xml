@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".doctor_view_patient_info">
+    tools:context=".patient_view_doctor_info">
 
     <TextView
-        android:id="@+id/doctor_view_patient_name"
+        android:id="@+id/patient_view_doctor_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/doctor_view_patient_gender"
+        android:id="@+id/patient_view_doctor_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
@@ -26,10 +26,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctor_view_patient_name" />
+        app:layout_constraintTop_toBottomOf="@+id/patient_view_doctor_name" />
 
     <TextView
-        android:id="@+id/doctor_view_patient_username"
+        android:id="@+id/patient_view_doctor_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
@@ -37,10 +37,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctor_view_patient_gender" />
+        app:layout_constraintTop_toBottomOf="@+id/patient_view_doctor_gender" />
 
     <TextView
-        android:id="@+id/doctor_view_patient_email"
+        android:id="@+id/patient_view_doctor_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="76dp"
@@ -48,10 +48,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctor_view_patient_username" />
+        app:layout_constraintTop_toBottomOf="@+id/patient_view_doctor_username" />
 
     <TextView
-        android:id="@+id/doctor_view_patient_birthday"
+        android:id="@+id/patient_view_doctor_specialization"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctor_view_patient_email" />
+        app:layout_constraintTop_toBottomOf="@+id/patient_view_doctor_email" />
 
     <Button
         android:id="@+id/button7"
@@ -71,6 +71,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctor_view_patient_birthday" />
+        app:layout_constraintTop_toBottomOf="@+id/patient_view_doctor_specialization" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

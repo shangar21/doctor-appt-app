@@ -44,7 +44,7 @@ public class view_doctor_availability extends AppCompatActivity {
     String username;
     String dr_name;
     String name;
-    Boolean overlappingAppt = false;
+    Boolean noAvailability = false;
 
     String m;
     int d;
@@ -118,6 +118,11 @@ public class view_doctor_availability extends AppCompatActivity {
                     availabilities.add(snapshot.child(dr_username).child("saturday").getValue(Availability.class));
 
                 }
+                else{
+                    TextView tv = (TextView)findViewById(R.id.textView5);
+                    tv.setText("No availability has been set yet");
+                    noAvailability = true;
+                }
 
             }
 
@@ -169,10 +174,15 @@ public class view_doctor_availability extends AppCompatActivity {
         a.setWeekOfYear(woy);
         a.setWeek(dow);
 
+        if(availabilities.size() <= 0){
+            outsideRangeDialog();
+            return;
+        }
+
         Availability ref = availabilities.get(dow-1);
 
         //checks if time is outside of availability, if the doctor is not available, or is longer than an hour and redirects to book appointment search page
-        if(!ref.isInRange(a) || ref.isUnavailable()){
+        if(!ref.isInRange(a) || ref.isUnavailable() || noAvailability){
             outsideRangeDialog();
             return;
         }
@@ -193,7 +203,7 @@ public class view_doctor_availability extends AppCompatActivity {
                 if(snapshot.child(dr_username).exists()){
                     for(DataSnapshot ds : snapshot.child(dr_username).getChildren()){
                         Appointment drAppt = ds.getValue(Appointment.class);
-                        if(a.isOverLap(drAppt)){
+                        if(a.isOverLap(drAppt) || a.equals(drAppt)){
                             conflictDialog();
                             return;
                         }else{
@@ -204,6 +214,9 @@ public class view_doctor_availability extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                                     if (snapshot.child(a.getPatient_user_name()).exists()){
+                                        if(snapshot.child(a.getPatient_user_name()).child(String.valueOf((int)(snapshot.child(a.getPatient_user_name()).getChildrenCount() + (long)1))).exists()){
+                                            pDatabaseReference.child(a.getPatient_user_name()).child(String.valueOf((int)(snapshot.child(a.getPatient_user_name()).getChildrenCount()))).setValue(a);
+                                        }
                                         pDatabaseReference.child(a.getPatient_user_name()).child(String.valueOf((int)(snapshot.child(a.getPatient_user_name()).getChildrenCount() + (long)1))).setValue(a);
                                     }
                                     else {
@@ -226,6 +239,9 @@ public class view_doctor_availability extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.child(a.getDr_user_name()).exists()){
+                                        if(snapshot.child(a.getPatient_user_name()).child(String.valueOf((int)(snapshot.child(a.getPatient_user_name()).getChildrenCount() + (long)1))).exists()){
+                                            pDatabaseReference.child(a.getPatient_user_name()).child(String.valueOf((int)(snapshot.child(a.getPatient_user_name()).getChildrenCount()))).setValue(a);
+                                        }
                                         dDatabaseReference.child(a.getDr_user_name()).child(String.valueOf((int)(snapshot.child(a.getDr_user_name()).getChildrenCount() + (long)1))).setValue(a);
                                     }
                                     else {

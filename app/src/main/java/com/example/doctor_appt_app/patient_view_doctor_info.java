@@ -16,7 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-public class doctor_view_patient_info extends AppCompatActivity {
+public class patient_view_doctor_info extends AppCompatActivity {
     String id;
     String patient_username;
     String doctor_username;
@@ -24,32 +24,32 @@ public class doctor_view_patient_info extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_view_patient_info);
+        setContentView(R.layout.activity_patient_view_doctor_info);
 
         Intent intent = getIntent();
-        patient_username = intent.getStringExtra("patient_username");
-        doctor_username = intent.getStringExtra("user");
+        patient_username = intent.getStringExtra("user");
+        doctor_username = intent.getStringExtra("doctor_username");
         id = intent.getStringExtra("appointment_id");
 
-        DatabaseReference patients = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
+        DatabaseReference patients = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("doctors");
 
         ValueEventListener patientListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                User u;
-                if(snapshot.child(patient_username).exists()){
-                    u = snapshot.child(patient_username).getValue(User.class);
-                    TextView patient_name = (TextView)findViewById(R.id.doctor_view_patient_name);
-                    TextView patient_gender = (TextView)findViewById(R.id.doctor_view_patient_gender);
-                    TextView patient_username = (TextView)findViewById(R.id.doctor_view_patient_username);
-                    TextView patient_email = (TextView)findViewById(R.id.doctor_view_patient_email);
-                    TextView patient_birthday = (TextView)findViewById(R.id.doctor_view_patient_birthday);
+                Doctor dr;
+                if(snapshot.child(doctor_username).exists()){
+                    dr = snapshot.child(doctor_username).getValue(Doctor.class);
+                    TextView doctor_name = (TextView)findViewById(R.id.patient_view_doctor_name);
+                    TextView doctor_gender = (TextView)findViewById(R.id.patient_view_doctor_gender);
+                    TextView doctor_username = (TextView)findViewById(R.id.patient_view_doctor_username);
+                    TextView doctor_email = (TextView)findViewById(R.id.patient_view_doctor_email);
+                    TextView doctor_specialization = (TextView)findViewById(R.id.patient_view_doctor_specialization);
 
-                    patient_name.setText("Name: " + u.getName());
-                    patient_gender.setText("Gender: " + u.getGender());
-                    patient_username.setText("Username: " + u.getUsername());
-                    patient_email.setText("Email: " + u.getEmail());
-                    patient_birthday.setText("Birthday: " + String.valueOf(u.birth_day) + "/" + String.valueOf(u.birth_month + 1) + "/" + String.valueOf(u.birth_year));
+                    doctor_name.setText("Name: " + dr.getName());
+                    doctor_gender.setText("Gender: " + dr.getGender());
+                    doctor_username.setText("Username: " + dr.getUsername());
+                    doctor_email.setText("Email: " + dr.getEmail());
+                    doctor_specialization.setText("Specialization: " + dr.getSpecialization());
                 }
             }
 
@@ -97,8 +97,8 @@ public class doctor_view_patient_info extends AppCompatActivity {
         patient_appts.addListenerForSingleValueEvent(listener);
         doctor_appts.addListenerForSingleValueEvent(listener2);
 
-        Intent i = new Intent(this, doctor_view_appts.class);
-        i.putExtra("user", doctor_username);
+        Intent i = new Intent(this, patient_view_appts.class);
+        i.putExtra("user", patient_username);
         startActivity(i);
     }
 }

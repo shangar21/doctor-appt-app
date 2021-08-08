@@ -52,7 +52,7 @@ public class doctor_view_appts extends AppCompatActivity {
                 Calendar calendar = new GregorianCalendar();
                 int week_of_year = calendar.get(Calendar.WEEK_OF_YEAR) - 2;
                 ArrayList<String> patient_usernames = new ArrayList<>();
-                ArrayList<Integer> appointment_ids = new ArrayList<Integer>();
+                ArrayList<String> appointment_ids = new ArrayList<String>();
                 if(snapshot.child(username).exists()){
                     for (DataSnapshot ds : snapshot.child(username).getChildren()){
                         if(String.valueOf(week_of_year).equals(ds.child("weekOfYear").getValue().toString())){
@@ -61,7 +61,7 @@ public class doctor_view_appts extends AppCompatActivity {
                                     ", to " + ds.child("end_hour").getValue().toString() + ":" + ds.child("end_minute").getValue().toString();
                             items.add(data);
                             patient_usernames.add(ds.child("patient_user_name").getValue().toString());
-                            appointment_ids.add(ds.child("uniqueID").getValue(Integer.class));
+                            appointment_ids.add(ds.getKey());
                         }else{
                             items.add("No appointments this week. " + String.valueOf(week_of_year) + ", " + ds.child("weekOfYear").getValue().toString());
                         }
@@ -78,6 +78,7 @@ public class doctor_view_appts extends AppCompatActivity {
                         Intent redirect = new Intent(doctor_view_appts.this, doctor_view_patient_info.class);
                         redirect.putExtra("patient_username", patient_usernames.get(i));
                         redirect.putExtra("appointment_id", appointment_ids.get(i));
+                        redirect.putExtra("user", username);
                         startActivity(redirect);
                     }
                 });
