@@ -43,7 +43,8 @@ public class patient_view_appts extends AppCompatActivity {
                 if(snapshot.child(username).exists()){
                     for (DataSnapshot ds : snapshot.child(username).getChildren()){
                         String data = ds.child("day").getValue().toString() + ", " + ds.child("month").getValue().toString() + ", " + ds.child("year").getValue().toString()
-                                + ", with " + ds.child("dr_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":00, to " + ds.child("end_hour").getValue().toString() + ":00";
+                                + ", with " + ds.child("dr_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":" + ds.child("start_minute").getValue().toString() +
+                                ", to " + ds.child("end_hour").getValue().toString() + ":" + ds.child("end_minute").getValue().toString();
                         items.add(data);
                     }
                 }else{

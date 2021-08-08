@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">doctor-appt-app</string>
+    <string name="app_name">Doctor Appointments</string>
     <string name="title_activity_patient_log_in">patient_log_in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

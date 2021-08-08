@@ -17,67 +17,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Spinner
-        android:id="@+id/day_spinner"
-        android:layout_width="97dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="52dp"
-        app:layout_constraintEnd_toStartOf="@+id/year_spinner"
-        app:layout_constraintHorizontal_bias="0.564"
-        app:layout_constraintStart_toEndOf="@+id/month_spinner"
+    <DatePicker
+        android:id="@+id/datePicker1"
+        android:layout_width="175dp"
+        android:layout_height="185dp"
+        android:layout_marginTop="24dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <Spinner
-        android:id="@+id/month_spinner"
-        android:layout_width="97dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="88dp"
-        app:layout_constraintEnd_toStartOf="@+id/year_spinner"
-        app:layout_constraintHorizontal_bias="0.085"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Spinner
-        android:id="@+id/year_spinner"
-        android:layout_width="97dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="88dp"
+    <TimePicker
+        android:id="@+id/timePicker1"
+        android:layout_width="160dp"
+        android:layout_height="169dp"
+        android:layout_marginTop="56dp"
+        android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.901"
+        app:layout_constraintHorizontal_bias="0.143"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/datePicker1" />
 
-    <Spinner
-        android:id="@+id/start_time_spinner"
-        android:layout_width="85dp"
-        android:layout_height="45dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/end_time_spinner"
-        app:layout_constraintHorizontal_bias="0.601"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_spinner"
-        app:layout_constraintVertical_bias="0.083" />
-
-    <Spinner
-        android:id="@+id/end_time_spinner"
-        android:layout_width="85dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="88dp"
-        android:layout_marginRight="88dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TimePicker
+        android:id="@+id/timePicker2"
+        android:layout_width="160dp"
+        android:layout_height="169dp"
+        android:layout_marginTop="56dp"
+        android:timePickerMode="spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_spinner"
-        app:layout_constraintVertical_bias="0.081" />
+        app:layout_constraintHorizontal_bias="0.86"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datePicker1" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
         android:onClick="submit"
         android:text="submit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/day_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/timePicker1"
+        app:layout_constraintVertical_bias="0.319" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Time"
+        app:layout_constraintBottom_toTopOf="@+id/timePicker1"
+        tools:layout_editor_absoluteX="36dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginLeft="112dp"
+        android:text="End TIme"
+        app:layout_constraintBottom_toTopOf="@+id/timePicker2"
+        app:layout_constraintStart_toEndOf="@+id/textView3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

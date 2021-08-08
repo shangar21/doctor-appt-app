@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -60,132 +62,38 @@ public class view_doctor_availability extends AppCompatActivity {
         String greeting = "Booking appointment for Dr."  + dr_name;
         text.setText(greeting);
 
-        Spinner day_spinner = (Spinner)findViewById(R.id.day_spinner);
-        Spinner month_spinner = (Spinner)findViewById(R.id.month_spinner);
-        Spinner year_spinner = (Spinner)findViewById(R.id.year_spinner);
-        Spinner start_time_spinner = (Spinner)findViewById(R.id.start_time_spinner);
-        Spinner end_time_spinner = (Spinner)findViewById(R.id.end_time_spinner);
-
-        writeArrays();
-
-        ArrayAdapter<String> month_spinner_populate = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, MONTHS);
-        ArrayAdapter<Integer> day_spinner_populate = new ArrayAdapter<Integer>(getApplicationContext(), android.R.layout.simple_spinner_item, day);
-        ArrayAdapter<Integer> year_spinner_populate = new ArrayAdapter<Integer>(getApplicationContext(), android.R.layout.simple_spinner_item, year);
-        ArrayAdapter<Integer> start_time_spinner_populate = new ArrayAdapter<Integer>(getApplicationContext(), android.R.layout.simple_spinner_item, start_hours);
-        ArrayAdapter<Integer> end_time_spinner_populate = new ArrayAdapter<Integer>(getApplicationContext(), android.R.layout.simple_spinner_item, end_hours);
-
-        day_spinner.setAdapter(day_spinner_populate);
-        month_spinner.setAdapter(month_spinner_populate);
-        year_spinner.setAdapter(year_spinner_populate);
-        start_time_spinner.setAdapter(start_time_spinner_populate);
-        end_time_spinner.setAdapter(end_time_spinner_populate);
-
-        day_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                d = day.get(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                d = 1;
-            }
-        });
-
-        month_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                m = MONTHS[i];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                m = "jan";
-            }
-        });
-
-        year_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                y = year.get(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                y = year.get(0);
-            }
-        });
-
-        start_time_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                sh = start_hours.get(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                sh = start_hours.get(0);
-            }
-        });
-
-        end_time_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                eh = end_hours.get(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                eh = end_hours.get(0);
-            }
-        });
-
-
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    void writeArrays(){
-        day = new ArrayList<>();
-        year = new ArrayList<>();
-        start_hours = new ArrayList<>();
-        end_hours = new ArrayList<>();
 
-        for(int i=1;i<=31;i++)
-            day.add(i);
-
-        year.add(Year.now().getValue());
-        year.add(Year.now().getValue() + 1);
-
-        for(int i=9;i<=16;i++)
-            start_hours.add(i);
-
-        for(int i=10;i<=17;i++)
-            end_hours.add(i);
-
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void submit(View view){
-        Appointment a = new Appointment(sh, eh, d, m, y);
+
+        DatePicker picker = (DatePicker)findViewById(R.id.datePicker1);
+        TimePicker start = (TimePicker)findViewById(R.id.timePicker1);
+        TimePicker end = (TimePicker) findViewById(R.id.timePicker2);
+
+        int day = picker.getDayOfMonth();
+        int month = picker.getMonth();
+        int year = picker.getYear();
+        int start_hour = start.getHour();
+        int start_minute = start.getMinute();
+        int end_hour = end.getHour();
+        int end_minute = end.getMinute();
+
+        Appointment a = new Appointment(start_hour, end_hour, day, MONTHS[month], year);
+
+
         a.setDr_user_name(dr_username);
         a.setPatient_user_name(username);
         a.setDr_name(dr_name);
         a.setPatient_name(name);
+        a.setStart_minute(start_minute);
+        a.setEnd_minute(end_minute);
 
-        int mon = 0;
-        if(m.equals("jan")) mon = 0;
-        if(m.equals("feb")) mon = 1;
-        if(m.equals("mar")) mon = 2;
-        if(m.equals("apr")) mon = 3;
-        if(m.equals("may")) mon = 4;
-        if(m.equals("jun")) mon = 5;
-        if(m.equals("jul")) mon = 6;
-        if(m.equals("aug")) mon = 7;
-        if(m.equals("sep")) mon = 8;
-        if(m.equals("oct")) mon = 9;
-        if(m.equals("nov")) mon = 10;
-        if(m.equals("dec")) mon = 11;
-        Calendar clnd1 = new GregorianCalendar(y, mon, d);
+        Calendar clnd1 = new GregorianCalendar(y, month, d);
+
         int woy = clnd1.get(Calendar.WEEK_OF_YEAR);
+
         a.setWeekOfYear(woy);
 
         DatabaseReference pDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsPatient");

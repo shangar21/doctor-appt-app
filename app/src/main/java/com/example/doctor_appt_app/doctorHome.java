@@ -25,5 +25,17 @@ public class doctorHome extends AppCompatActivity {
         startActivity(I);
     }
 
+    public void set_availability(View view){
+        Intent I = new Intent(this, doctor_set_availability.class);
+        I.putExtra("user", username);
+        startActivity(I);
+    }
+
+    public void change_profile(View view){
+        Intent I = new Intent(this, doctor_set_availability.class);
+        I.putExtra("user", username);
+        startActivity(I);
+    }
+
 
 }
