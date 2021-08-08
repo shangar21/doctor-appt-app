@@ -55,7 +55,12 @@ public class patient_book_appt extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()){
-                    String str = "Dr." + ds.child("name").getValue().toString() + ", \t Specialization: " + ds.child("specialization").getValue().toString();
+                    String str = "Dr." + ds.child("name").getValue().toString() + ", \t Specialization: None";
+
+                    if(ds.child("specialization").exists()){
+                        str = "Dr." + ds.child("name").getValue().toString() + ", \t Specialization: " + ds.child("specialization").getValue().toString();
+                    }
+
                     data.add(str);
                     names.add(ds.child("name").getValue().toString());
                     dr_usernames.add(ds.child("username").getValue().toString());
