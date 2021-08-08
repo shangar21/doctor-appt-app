@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 public class doctor_view_patient_info extends AppCompatActivity {
+    int id;
 
     String patient;
     String doctor;
@@ -28,9 +29,11 @@ public class doctor_view_patient_info extends AppCompatActivity {
         setContentView(R.layout.activity_doctor_view_patient_info);
 
         Intent intent = getIntent();
+
         patient = intent.getStringExtra("patient_username");
         doctor = intent.getStringExtra("doctor_username");
         uniqueIdentifier = intent.getLongExtra("uniqueIdentifier", 0);
+
 
         DatabaseReference patients = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
 
@@ -63,6 +66,7 @@ public class doctor_view_patient_info extends AppCompatActivity {
         patients.addValueEventListener(patientListener);
     }
 
+
     public void doctorCancelAppointment(View view) {
         DatabaseReference pDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsPatient");
         DatabaseReference dDatabaseReference = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("appointmentsDoctor");
@@ -72,11 +76,13 @@ public class doctor_view_patient_info extends AppCompatActivity {
                 for(DataSnapshot ds : snapshot.child(doctor).getChildren()) {
                     if(uniqueIdentifier == ds.child("uniqueID").getValue()) {
                         ds.getRef().removeValue();
+
                     }
                 }
             }
 
             @Override
+
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
@@ -87,11 +93,13 @@ public class doctor_view_patient_info extends AppCompatActivity {
                 for(DataSnapshot ds : snapshot.child(patient).getChildren()) {
                     if(uniqueIdentifier == ds.child("uniqueID").getValue()) {
                         ds.getRef().removeValue();
+
                     }
                 }
             }
 
             @Override
+
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
@@ -100,3 +108,4 @@ public class doctor_view_patient_info extends AppCompatActivity {
     }
 
 }
+
