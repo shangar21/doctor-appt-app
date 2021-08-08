@@ -11,18 +11,22 @@ import android.widget.TextView;
 public class patientHome extends AppCompatActivity {
 
     String username;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_home);
 
+
         Intent intent = getIntent();
         username = intent.getStringExtra("user");
+        name = intent.getStringExtra("name");
 
         TextView text = (TextView)findViewById(R.id.greeting);
         String greeting = "Hello, "  + username;
         text.setText(greeting);
+
 
     }
 
@@ -35,6 +39,8 @@ public class patientHome extends AppCompatActivity {
     public void bookAppointments(View view){
         Intent I = new Intent(this, patient_book_appt.class);
         I.putExtra("user", username);
+        I.putExtra("name", name);
+
         startActivity(I);
     }
 }
