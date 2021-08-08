@@ -36,7 +36,7 @@ public class doctorHome extends AppCompatActivity {
     }
 
     public void change_profile(View view){
-        Intent I = new Intent(this, doctor_set_availability.class);
+        Intent I = new Intent(this, doctor_edit_profile.class);
         I.putExtra("user", username);
         startActivity(I);
     }

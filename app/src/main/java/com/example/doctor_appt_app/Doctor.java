@@ -13,4 +13,8 @@ public class Doctor extends User{
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
+
+    public String getSpecialization() {
+        return specialization;
+    }
 }
