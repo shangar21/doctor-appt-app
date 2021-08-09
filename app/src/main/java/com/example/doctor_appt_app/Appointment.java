@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.lang.*;
@@ -169,6 +170,15 @@ public class Appointment {
                 day == that.day &&
                 year == that.year &&
                 month.equals(that.month);
+    }
+
+    public boolean isInPast(int y, int m, int d){
+        Calendar today = Calendar.getInstance();
+        today.setTime(new Date(System.currentTimeMillis()));
+        Calendar appt = new GregorianCalendar(y,m,d);
+        appt.set(Calendar.HOUR, this.start_hour);
+        appt.set(Calendar.MINUTE, this.start_minute);
+        return appt.compareTo(today) <= 0;
     }
 
 }

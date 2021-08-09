@@ -191,6 +191,11 @@ public class view_doctor_availability extends AppCompatActivity {
             return;
         }
 
+        if(a.isInPast(year, month, day)){
+            outsideRangeDialog("Can't book appointment in past");
+            return;
+        }
+
         if(!a.isValid()){
             tooLongDialog();
             return;

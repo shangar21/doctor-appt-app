@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -167,7 +168,8 @@ public class patient_book_appt extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()){
-                    if(ds.child("specialization").toString().toLowerCase().contains(query)){
+                    if(ds.child("specialization").exists() && ds.child("specialization").toString().toLowerCase().contains(query)){
+
                         String str = "Dr." + ds.child("name").getValue().toString() + ", \t Specialization: None";
 
                         if(ds.child("specialization").exists()){
@@ -209,6 +211,61 @@ public class patient_book_appt extends AppCompatActivity {
         doctors.addValueEventListener(drListener);
     }
 
+    public void search_gender(View view){
+        RadioButton female = (RadioButton)findViewById(R.id.search_female);
+        String query = female.isChecked() ? "female" : "male";
+
+        data.clear();
+        names.clear();
+        dr_usernames.clear();
+        lv.setAdapter(null);
+
+        drListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+
+                for (DataSnapshot ds : snapshot.getChildren()){
+                        if(ds.child("gender").getValue().toString().equals(query)){
+                            String str = "Dr." + ds.child("name").getValue().toString() + ", \t Specialization: None";
+
+                            if(ds.child("specialization").exists()){
+                                str = "Dr." + ds.child("name").getValue().toString() + ", \t Specialization: " + ds.child("specialization").getValue().toString();
+                            }
+
+                            data.add(str);
+                            names.add(ds.child("name").getValue().toString());
+                            dr_usernames.add(ds.child("username").getValue().toString());
+                        }
+
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, data);
+
+                lv.setAdapter(adapter);
+
+                lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        String dr_name = names.get(i);
+                        String dr_username = dr_usernames.get(i);
+                        Intent intent2 = new Intent(patient_book_appt.this, view_doctor_availability.class);
+                        intent2.putExtra("doctor_username", dr_username);
+                        intent2.putExtra("doctor_name", dr_name);
+                        intent2.putExtra("user", user);
+                        intent2.putExtra("name", name);
+                        startActivity(intent2);
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                System.out.println(error);
+            }
+        };
+
+        doctors.addValueEventListener(drListener);
+    }
 
 
 
