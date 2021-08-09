@@ -75,6 +75,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void forgotPasswordPatient(View view){
+        Intent I = new Intent(this, forgotPasswordPatient.class);
+        startActivity(I);
+    }
+
+    public void forgotPasswordDoctor(View view){
+        Intent I = new Intent(this, forgotPasswordDoctor.class);
+        startActivity(I);
+    }
+
+
     public void showAlertDialog(View v)
     {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -210,11 +221,5 @@ public class MainActivity extends AppCompatActivity {
         Intent I = new Intent(this, Register.class);
         startActivity(I);
     }
-
-
-
-
-
-
 
 }

@@ -11,8 +11,6 @@
         android:theme="@style/Theme.Doctorapptapp">
         <activity android:name=".patient_edit_profile"></activity>
         <activity android:name=".patient_view_doctor_info" />
-        <activity android:name=".forgotPasswordDoctor"></activity>
-        <activity android:name=".forgotPasswordPatient" />
         <activity android:name=".doctor_edit_profile" />
         <activity android:name=".doctor_set_availability" />
         <activity android:name=".doctor_view_patient_info" />

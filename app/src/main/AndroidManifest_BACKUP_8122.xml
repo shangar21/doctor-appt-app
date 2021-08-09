@@ -9,10 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Doctorapptapp">
+<<<<<<< HEAD
         <activity android:name=".patient_edit_profile"></activity>
         <activity android:name=".patient_view_doctor_info" />
+=======
         <activity android:name=".forgotPasswordDoctor"></activity>
         <activity android:name=".forgotPasswordPatient" />
+>>>>>>> 5de16c3d653c6bf56b73aea38ba0ab0bd9d71556
         <activity android:name=".doctor_edit_profile" />
         <activity android:name=".doctor_set_availability" />
         <activity android:name=".doctor_view_patient_info" />
