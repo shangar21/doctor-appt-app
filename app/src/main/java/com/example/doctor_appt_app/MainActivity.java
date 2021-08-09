@@ -58,14 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     showAlertDialog(v);
                 }
                 else{
-//                    ////////buggy!!!!!!!!!!!!!!!!
-//                    int answer = checkpw(v);
-//                    System.out.println(answer);
-//                    if (answer == -99)
-//                    {
-//                        showAlertDialog1(v);
-//                    }
-//                    /////////////
+
                     drLogin(v);
 
 
