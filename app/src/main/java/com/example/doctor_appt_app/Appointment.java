@@ -6,7 +6,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+<<<<<<< HEAD
 import java.util.Objects;
+=======
+import java.lang.*;
+>>>>>>> 7d6bda031398d12e27a910ec38a19f12f7ec751e
 
 public class Appointment {
     int start_hour;
@@ -22,7 +26,9 @@ public class Appointment {
     String patient_user_name;
     String dr_name;
     String patient_name;
+    long uniqueID;
     int weekOfYear;
+
 
     public Appointment(){}
 
@@ -125,6 +131,8 @@ public class Appointment {
     public int getWeekOfYear() {return weekOfYear;}
 
     public void setWeekOfYear(int a) {this.weekOfYear = a;}
+
+    public void setUniqueID(long a) {this.uniqueID = a;}
 
     public boolean isValid(){
         return (this.end_hour == this.start_hour+1 && this.end_hour <= this.start_minute) || (this.end_hour == this.start_hour) || this.start_hour > this.end_hour || (this.start_hour == this.end_hour && this.start_minute > this.end_minute);

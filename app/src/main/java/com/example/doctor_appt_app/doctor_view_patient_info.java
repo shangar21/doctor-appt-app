@@ -102,3 +102,4 @@ public class doctor_view_patient_info extends AppCompatActivity {
         startActivity(i);
     }
 }
+
