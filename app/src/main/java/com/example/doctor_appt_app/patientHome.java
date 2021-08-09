@@ -43,4 +43,10 @@ public class patientHome extends AppCompatActivity {
 
         startActivity(I);
     }
+
+    public void pchange_profile(View view){
+        Intent I = new Intent(this, patient_edit_profile.class);
+        I.putExtra("user", username);
+        startActivity(I);
+    }
 }
