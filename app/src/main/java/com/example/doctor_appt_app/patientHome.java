@@ -49,4 +49,5 @@ public class patientHome extends AppCompatActivity {
         I.putExtra("user", username);
         startActivity(I);
     }
+
 }

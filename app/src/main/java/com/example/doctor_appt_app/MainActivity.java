@@ -214,6 +214,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(I);
     }
 
-    public void hello(){}
 
 }
