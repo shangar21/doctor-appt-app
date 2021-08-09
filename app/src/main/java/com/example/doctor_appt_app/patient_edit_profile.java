@@ -62,10 +62,10 @@ public class patient_edit_profile extends AppCompatActivity {
     }
 
     public void submit(View view){
-        patient.setHealthcondition(healthcondition.getText().toString());
+        patient.setHealthCondition(healthcondition.getText().toString());
         patient.setEmail(email.getText().toString());
         patients.child(username).child("email").setValue(patient.getEmail());
-        patients.child(username).child("healthcondition").setValue(patient.getHealthcondition());
+        patients.child(username).child("healthcondition").setValue(patient.getHealthCondition());
         Intent back = new Intent(this, patientHome.class);
         back.putExtra("user", username);
         startActivity(back);

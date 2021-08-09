@@ -7,6 +7,9 @@ public class User {
     String username;
     String password;
     String gender;
+    String healthCondition;
+
+
     int birth_month;
     int birth_day;
     int birth_year;
@@ -83,5 +86,14 @@ public class User {
 
     public void setBirth_year(int birth_year) {
         this.birth_year = birth_year;
+    }
+
+
+    public String getHealthCondition() {
+        return healthCondition;
+    }
+
+    public void setHealthCondition(String healthCondition) {
+        this.healthCondition = healthCondition;
     }
 }

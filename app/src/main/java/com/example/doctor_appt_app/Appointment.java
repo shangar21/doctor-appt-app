@@ -6,11 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-<<<<<<< HEAD
 import java.util.Objects;
-=======
 import java.lang.*;
->>>>>>> 7d6bda031398d12e27a910ec38a19f12f7ec751e
 
 public class Appointment {
     int start_hour;
@@ -148,13 +145,13 @@ public class Appointment {
 
     public boolean isOverLap(Appointment a){
         if(a.getMonth().equals(this.month) && a.getDay() == this.day && a.getYear() == this.year){
-              int x1 = a.getStart_hour() * 60 + a.getStart_minute();
-              int x2 = a.getEnd_hour() * 60 + a.getEnd_minute();
+            int x1 = a.getStart_hour() * 60 + a.getStart_minute();
+            int x2 = a.getEnd_hour() * 60 + a.getEnd_minute();
 
-              int y1 = this.start_hour * 60 + this.start_minute;
-              int y2 = this.end_hour * 60 + this.end_minute;
+            int y1 = this.start_hour * 60 + this.start_minute;
+            int y2 = this.end_hour * 60 + this.end_minute;
 
-              return x1 <= y2 && y1 <= x2;
+            return x1 <= y2 && y1 <= x2;
         }
 
         return false;
