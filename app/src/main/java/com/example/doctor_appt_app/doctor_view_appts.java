@@ -51,7 +51,7 @@ public class doctor_view_appts extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 Calendar calendar = new GregorianCalendar();
-                int week_of_year = calendar.get(Calendar.WEEK_OF_YEAR) - 2;
+                int week_of_year = calendar.get(Calendar.WEEK_OF_YEAR);
                 ArrayList<String> patient_usernames = new ArrayList<>();
                 ArrayList<String> appointment_ids = new ArrayList<String>();
                 if(snapshot.child(username).exists()){

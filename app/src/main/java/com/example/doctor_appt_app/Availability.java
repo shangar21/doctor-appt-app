@@ -56,21 +56,13 @@ public class Availability {
     }
 
     public boolean isInRange(Appointment a){
-        int sh = a.getStart_hour();
-        int sm  = a.getStart_minute();
+        int x1 = a.getStart_hour() * 60 + a.getStart_minute();
+        int x2 = a.getEnd_hour() * 60 + a.getEnd_minute();
 
-        int eh = a.getEnd_hour();
-        int em = a.getEnd_minute();
+        int y1 = this.start_hour * 60 + this.start_minute;
+        int y2 = this.end_hour * 60 + this.end_minute;
 
-        if(sh == this.start_hour){
-            return this.start_minute <= sm;
-        }
-
-        if(eh == this.end_hour){
-            return em <= this.end_minute;
-        }
-
-        return sh >= this.start_hour && eh <= this.end_hour ;
+        return x1 <= y2 && y1 <= x2;
     }
 
     @NonNull

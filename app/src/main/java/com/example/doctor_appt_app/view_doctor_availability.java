@@ -47,7 +47,6 @@ public class view_doctor_availability extends AppCompatActivity {
     String username;
     String dr_name;
     String name;
-    Boolean noAvailability = false;
 
     String m;
     int d;
@@ -124,7 +123,6 @@ public class view_doctor_availability extends AppCompatActivity {
                 else{
                     TextView tv = (TextView)findViewById(R.id.textView5);
                     tv.setText("No availability has been set yet");
-                    noAvailability = true;
                 }
 
             }
@@ -166,12 +164,11 @@ public class view_doctor_availability extends AppCompatActivity {
         a.setStart_minute(start_minute);
         a.setEnd_minute(end_minute);
 
-        Calendar clnd1 = new GregorianCalendar(y, month, d);
-        Date date = new Date(y, month, d);
+        Calendar clnd1 = new GregorianCalendar(year, month, day);
 
         int woy = clnd1.get(Calendar.WEEK_OF_YEAR);
 
-        int dow = date.getDay();
+        int dow = clnd1.get(Calendar.DAY_OF_WEEK);
 
         long uniqueIdentifier = System.currentTimeMillis() + username.hashCode();
 
@@ -182,15 +179,15 @@ public class view_doctor_availability extends AppCompatActivity {
         a.setWeek(dow);
 
         if(availabilities.size() <= 0){
-            outsideRangeDialog();
+            outsideRangeDialog("no availabilities");
             return;
         }
 
-        Availability ref = availabilities.get(dow-1);
+        Availability ref = availabilities.get(dow - 1);
 
         //checks if time is outside of availability, if the doctor is not available, or is longer than an hour and redirects to book appointment search page
-        if(!ref.isInRange(a) || ref.isUnavailable() || noAvailability){
-            outsideRangeDialog();
+        if(!ref.isInRange(a) || ref.isUnavailable()){
+            outsideRangeDialog("outside range: " + a.toString() + " " + ref.toString() + " " + String.valueOf(dow));
             return;
         }
 
@@ -358,10 +355,10 @@ public class view_doctor_availability extends AppCompatActivity {
 
     }
 
-    private void outsideRangeDialog(){
+    private void outsideRangeDialog(String s){
         AlertDialog.Builder builder = new AlertDialog.Builder(view_doctor_availability.this);
         builder.setTitle("Not Valid Appointment");
-        builder.setMessage("The appointment is set at a time that is outside of the appointment range of the doctor, please check availability at the top and retry ");
+        builder.setMessage(s);
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
