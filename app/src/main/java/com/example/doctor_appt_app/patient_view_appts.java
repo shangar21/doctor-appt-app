@@ -24,6 +24,8 @@ public class patient_view_appts extends AppCompatActivity {
 
     ListView lv;
     ArrayList<String> items;
+    ArrayList<String> months = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,19 @@ public class patient_view_appts extends AppCompatActivity {
         lv = findViewById(R.id.listview1);
 
         items = new ArrayList<String>();
+
+        months.add("jan");
+        months.add("feb");
+        months.add("mar");
+        months.add("apr");
+        months.add("may");
+        months.add("jun");
+        months.add("jul");
+        months.add("aug");
+        months.add("sep");
+        months.add("oct");
+        months.add("nov");
+        months.add("dec");
 
         Intent intent = getIntent();
         String username = intent.getStringExtra("user");
@@ -46,12 +61,15 @@ public class patient_view_appts extends AppCompatActivity {
                 ArrayList<String> appointment_ids = new ArrayList<String>();
                 if(snapshot.child(username).exists()){
                     for (DataSnapshot ds : snapshot.child(username).getChildren()){
-                        String data = ds.child("day").getValue().toString() + ", " + ds.child("month").getValue().toString() + ", " + ds.child("year").getValue().toString()
-                                + ", with " + ds.child("dr_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":" + ds.child("start_minute").getValue().toString() +
-                                ", to " + ds.child("end_hour").getValue().toString() + ":" + ds.child("end_minute").getValue().toString();
-                        items.add(data);
-                        doctor_usernames.add(ds.child("dr_user_name").getValue().toString());
-                        appointment_ids.add(ds.getKey());
+                        Appointment a = ds.getValue(Appointment.class);
+                        if(!a.isInPast(a.getYear(), months.indexOf(a.getMonth()), a.getDay())){
+                            String data = ds.child("day").getValue().toString() + ", " + ds.child("month").getValue().toString() + ", " + ds.child("year").getValue().toString()
+                                    + ", with " + ds.child("dr_name").getValue().toString() + ", from " + ds.child("start_hour").getValue().toString() + ":" + ds.child("start_minute").getValue().toString() +
+                                    ", to " + ds.child("end_hour").getValue().toString() + ":" + ds.child("end_minute").getValue().toString();
+                            items.add(data);
+                            doctor_usernames.add(ds.child("dr_user_name").getValue().toString());
+                            appointment_ids.add(ds.getKey());
+                        }
                     }
                 }else{
                     items.add("No appointments yet");
