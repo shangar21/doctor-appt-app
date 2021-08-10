@@ -1,8 +1,10 @@
 package com.example.doctor_appt_app;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -56,6 +58,20 @@ public class Register extends AppCompatActivity {
             female.setChecked(false);
         }
     }
+
+    public void showAlertDialog()
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Error");
+        alert.setMessage("Username has already been used, please try again");
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        alert.show();
+        return;
+    }
     public void submit(View view) {
         database = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/");
 
@@ -67,11 +83,9 @@ public class Register extends AppCompatActivity {
         Switch isDoctor = (Switch) findViewById(R.id.register_doctor);
       //  RadioButton male = (RadioButton) findViewById(R.id.register_male);
       //  RadioButton female = (RadioButton) findViewById(R.id.register_female);
-
-
-
         String gender = male.isChecked() ? "male" : "female";
         String usern = username.getText().toString();
+        String emailn = email.getText().toString();
         DatabaseReference patients = FirebaseDatabase.getInstance("https://doctor-appt-app-default-rtdb.firebaseio.com/").getReference("patients");
 
         if(!isDoctor.isChecked()) {
@@ -79,7 +93,14 @@ public class Register extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                     if (password.getText().length() != 0) {
-                        if (!snapshot.child(usern).exists()) {
+                        if (snapshot.child(usern).exists()) {
+                            showAlertDialog();
+                            return;
+
+                        }
+
+                        else
+                        {
                             mDatabase = database.getReference("patients");
                             User user = new User(name.getText().toString(), email.getText().toString(), username.getText().toString(), password.getText().toString(), gender);
                             user.setBirth_day(picker.getDayOfMonth());
@@ -89,7 +110,6 @@ public class Register extends AppCompatActivity {
                             Intent I = new Intent(Register.this, patientHome.class);
                             I.putExtra("user", user.getUsername());
                             startActivity(I);
-
                         }
                     }
 
@@ -122,7 +142,6 @@ public class Register extends AppCompatActivity {
                             startActivity(I);
                         }
                     }
-
                 }
 
                 @Override
